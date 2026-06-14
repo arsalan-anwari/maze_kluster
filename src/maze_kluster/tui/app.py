@@ -99,13 +99,15 @@ def _format_stats(
     frontier_size: int,
     delay: float,
     finished: bool,
+    max_moves: int | None = None,
 ) -> str:
     pct = score_in_bag / total_reward * 100 if total_reward > 0 else 0.0
     status = "DONE" if finished else "Running"
+    step_str = f"{step} / {max_moves}" if max_moves is not None else str(step)
     return (
         f"Maze:     {maze_name}\n"
         f"Bot:      {bot_name}\n"
-        f"Step:     {step}\n"
+        f"Step:     {step_str}\n"
         f"Score:    {score_in_bag:.0f} / {total_reward:.0f} ({pct:.0f}%)\n"
         f"In Hand:  {score_in_hand:.0f}\n"
         f"Frontier: {frontier_size}\n"
@@ -220,6 +222,8 @@ class MainMenuScreen(Screen[None]):
                 allow_blank=False,
                 value="baseline",
             )
+            yield Label("Max Moves (optional):")
+            yield Input(placeholder="e.g. 30  (blank = unlimited)", id="max-moves-input")
             yield Label("Mode:")
             yield RadioSet(
                 RadioButton("Live Run", value=True),
@@ -272,7 +276,11 @@ class MainMenuScreen(Screen[None]):
                 return
             bot_val = bot_select.value
             bot_name = str(bot_val) if not isinstance(bot_val, NoSelection) else "baseline"
-            self.app.push_screen(RunScreen(mode="live", maze_name=str(maze_val), bot_name=bot_name))
+            max_moves_str = self.query_one("#max-moves-input", Input).value.strip()
+            max_moves: int | None = int(max_moves_str) if max_moves_str.isdigit() else None
+            self.app.push_screen(
+                RunScreen(mode="live", maze_name=str(maze_val), bot_name=bot_name, max_moves=max_moves)
+            )
         else:
             log_path = self.query_one("#log-input", Input).value.strip()
             if not log_path:
@@ -380,12 +388,14 @@ class RunScreen(Screen[None]):
         maze_name: str | None = None,
         bot_name: str = "baseline",
         log_path: str | None = None,
+        max_moves: int | None = None,
     ) -> None:
         super().__init__()
         self._mode = mode
         self._maze_name = maze_name or ""
         self._bot_name = bot_name
         self._log_path = log_path or ""
+        self._max_moves = max_moves
         self._step: int = 0
         self._score_in_bag: float = 0.0
         self._score_in_hand: float = 0.0
@@ -528,6 +538,7 @@ class RunScreen(Screen[None]):
             score_in_bag = response.score_in_bag
             score_in_hand = response.score_in_hand
             step = 0
+            known_exits: set[tuple[int, int]] = set()
 
             grid = render_grid(graph, (0, 0))
             stats = _format_stats(
@@ -540,6 +551,7 @@ class RunScreen(Screen[None]):
                 len(graph.frontier),
                 self._delay,
                 False,
+                self._max_moves,
             )
             self.app.call_from_thread(self._apply_display, grid, stats)
 
@@ -550,24 +562,40 @@ class RunScreen(Screen[None]):
                     client.collect_score()
                     score_in_hand = 0.0
 
-                if response.can_exit and not graph.frontier:
-                    client.exit_maze()
-                    grid = render_grid(graph, graph.current_pos)
-                    stats = _format_stats(
-                        self._maze_name,
-                        self._bot_name,
-                        step,
-                        score_in_bag,
-                        score_in_hand,
-                        total_reward,
-                        0,
-                        self._delay,
-                        True,
-                    )
-                    self.app.call_from_thread(self._apply_display, grid, stats)
-                    break
+                if response.can_exit:
+                    known_exits.add(graph.current_pos)
 
-                direction: Direction = bot.next_move(graph)
+                exit_known = bool(known_exits) or graph.nearest_exit(graph.current_pos) is not None
+                collectible_reachable = graph.nearest_collectible(graph.current_pos) is not None
+                force_exit = (
+                    self._max_moves is not None
+                    and step >= self._max_moves
+                    and exit_known
+                    and (score_in_hand == 0 or collectible_reachable)
+                )
+
+                if response.can_exit and (not graph.frontier or force_exit):
+                    if score_in_hand == 0 or graph.nearest_collectible(graph.current_pos) is None:
+                        client.exit_maze()
+                        grid = render_grid(graph, graph.current_pos)
+                        stats = _format_stats(
+                            self._maze_name,
+                            self._bot_name,
+                            step,
+                            score_in_bag,
+                            score_in_hand,
+                            total_reward,
+                            0,
+                            self._delay,
+                            True,
+                            self._max_moves,
+                        )
+                        self.app.call_from_thread(self._apply_display, grid, stats)
+                        break
+
+                direction: Direction = cast(Any, bot).next_move(  # type: ignore[call-arg]
+                    graph, known_exits, score_in_hand, force_exit
+                )
                 response = client.move(direction)
                 step += 1
 
@@ -590,6 +618,7 @@ class RunScreen(Screen[None]):
                     len(graph.frontier),
                     self._delay,
                     False,
+                    self._max_moves,
                 )
                 self.app.call_from_thread(self._apply_display, grid, stats)
                 time.sleep(self._delay)
@@ -609,6 +638,7 @@ class RunScreen(Screen[None]):
                         maze_name=self._maze_name,
                         bot_name=value,
                         log_path=self._log_path,
+                        max_moves=self._max_moves,
                     )
                 )
             elif action == "log":
@@ -623,6 +653,7 @@ class RunScreen(Screen[None]):
                 maze_name=self._maze_name,
                 bot_name=self._bot_name,
                 log_path=self._log_path,
+                max_moves=self._max_moves,
             )
         )
 

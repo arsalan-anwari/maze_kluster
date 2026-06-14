@@ -25,6 +25,15 @@ gbt, gp) require trained model files in ``models/``. See
    :alt: Main menu with bot selected
    :width: 100%
 
+Optionally set a **Max Moves** limit. When set, the bot stops exploring once
+that step count is reached and instead navigates to the nearest collection
+point to bank any score in hand, then heads for the exit. 
+Leave the field blank for an unlimited run.
+
+.. image:: ../../res/tui/main-menu-moves.png
+   :alt: Main menu with max moves value entered
+   :width: 100%
+
 Choose Live Run to connect to the API, or Load Log to replay a recorded JSONL
 file, then press Start.
 
@@ -88,7 +97,7 @@ The right panel shows:
 - **Maze**: name of the current maze
 - **Bot**: active bot name
 - **Score**: score in bag / potential reward
-- **Steps**: total moves made
+- **Step**: moves made; shown as ``step / max`` when a max-moves limit is set
 - **In Hand**: score collected but not yet bagged
 - **Frontier**: number of tiles seen but not yet visited
 - **Speed**: step delay in seconds
