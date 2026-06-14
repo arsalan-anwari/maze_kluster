@@ -4,8 +4,9 @@ build-backend = "hatchling.build"
 
 [project]
 name             = "maze-kluster"
-version          = "0.1.0"
+version          = "1.0.0"
 description      = "Maze-solving bot library with DFS baseline, ML-driven smart bots, and a terminal UI."
+readme           = "README.md"
 authors          = [{ name = "Arsalan Anwari", email = "arsalan@anwari.nl" }]
 license          = { text = "Apache-2.0" }
 requires-python  = ">=3.11"

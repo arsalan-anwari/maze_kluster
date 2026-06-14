@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path("../../../src").resolve()))
 
 project = "maze-kluster"
 author = "Arsalan Anwari"
-release = "0.1.0"
+release = "1.0.0"
 copyright = "2026, Arsalan Anwari"
 
 extensions = [
@@ -56,7 +56,7 @@ html_theme_options = {
             "icon": _GITHUB_ICON,
         },
         "PyPI": {
-            "link": "#",  # fill in after publishing
+            "link": "https://pypi.org/project/maze-kluster",
             "icon": _PYPI_ICON,
         },
     },

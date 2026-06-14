@@ -1,86 +1,159 @@
 # maze-kluster
 
-A maze-solving bot library with a DFS baseline, three ML-driven smart bots, and a terminal UI. Built as part of the HTI maze-kluster assignment.
+[![PyPI version](https://img.shields.io/pypi/v/maze-kluster?color=blue)](https://pypi.org/project/maze-kluster)
+[![Python](https://img.shields.io/pypi/pyversions/maze-kluster)](https://pypi.org/project/maze-kluster)
+[![License](https://img.shields.io/pypi/l/maze-kluster)](LICENSE)
+[![Docs](https://img.shields.io/badge/docs-docs.anwari.nl-informational)](https://docs.anwari.nl/maze_kluster)
+[![HTI](https://img.shields.io/badge/challenge-htiprojects.nl-orange)](https://htiprojects.nl)
 
-## Install
+A Python library for navigating mazes via REST API, shipping a DFS baseline bot and three ML-driven smart bots (Random Forest, Gradient-Boosted Trees, Gaussian Process), plus an optional terminal UI for live runs and replay.
+
+## Installation
 
 ```bash
-pip install maze-kluster
+pip install maze-kluster          # core library
+pip install "maze-kluster[tui]"   # + Textual terminal UI
 ```
 
-With the terminal UI:
+## Quick start
 
-```bash
-pip install "maze-kluster[tui]"
+### 1. Configure credentials
+
+Create a `connection.json` in your working directory:
+
+```json
+{
+  "base_url": "https://maze.kluster.htiprojects.nl",
+  "api_key": "your-api-token"
+}
 ```
 
-### Local development (cloned repo)
+Environment-variable substitution is supported — e.g. `"api_key": "${MY_API_KEY}"`.
 
-Install the package in editable mode with the extras you need:
+### 2. Run a bot in Python
+
+```python
+from maze_kluster.api import MazeClient
+from maze_kluster.bots import BaselineBot, SmartBotBase
+from maze_kluster.models.rf import RFScorer
+
+client = MazeClient.from_config("connection.json")
+
+# DFS baseline
+bot = BaselineBot(client)
+result = bot.run("easy-01")
+print(f"Score: {result.score_in_bag}  Moves: {result.total_moves}")
+
+# ML-driven smart bot (pre-trained model bundled in the package)
+smart_bot = SmartBotBase(client, scorer=RFScorer.load())
+result = smart_bot.run("medium-03")
+```
+
+### 3. Use the BOTS registry
+
+```python
+from maze_kluster.bots import BOTS
+from maze_kluster.api import MazeClient
+
+client = MazeClient.from_config()
+bot = BOTS["gbt"](client)   # "baseline" | "rf" | "gbt" | "gp"
+result = bot.run("hard-02")
+```
+
+### 4. Evaluate results
+
+```python
+from maze_kluster.metrics import (
+    score_efficiency,
+    step_efficiency,
+    collection_rate,
+    exploration_completeness,
+)
+
+print(score_efficiency(result))         # fraction of potential reward collected
+print(step_efficiency(result))          # reward per move
+print(collection_rate(result))          # reward secured vs. lost in hand
+print(exploration_completeness(result)) # fraction of tiles visited
+```
+
+## CLI
 
 ```bash
-# everything (recommended for contributors)
+# Launch the TUI (requires maze-kluster[tui])
+maze-kluster tui
+
+# Live run with a specific bot and maze
+maze-kluster tui --live --maze easy-01 --bot gbt
+
+# Replay a saved run log
+maze-kluster tui --replay run_logs/easy-01_baseline.jsonl
+
+# List available mazes / themes
+maze-kluster tui --list-mazes
+maze-kluster tui --list-themes
+
+# Custom connection file
+maze-kluster tui --connection /path/to/connection.json
+```
+
+## Bots
+
+| Name | Class | Strategy |
+|---|---|---|
+| `baseline` | `BaselineBot` | Depth-first search; explores fully before exiting |
+| `rf` | `SmartBotBase` + `RFScorer` | Random Forest scores frontier tiles by desirability |
+| `gbt` | `SmartBotBase` + `GBTScorer` | Gradient-Boosted Trees scorer |
+| `gp` | `SmartBotBase` + `GPUCBScorer` | Gaussian Process with UCB acquisition |
+
+Smart bots rank frontier nodes using a trained scorer and adjust by graph distance so nearby high-value tiles win over distant ones. Pre-trained model artifacts are bundled inside the package.
+
+## Custom scorer
+
+Implement `ScorerProtocol` to plug in your own model:
+
+```python
+import pandas as pd
+from maze_kluster.models.protocol import ScorerProtocol
+from maze_kluster.bots.smart import SmartBotBase
+from maze_kluster.api import MazeClient
+
+class MyScorer:
+    def score(self, features: pd.DataFrame) -> list[float]:
+        # Available columns: tile_type, actual_degree, is_dead_end,
+        #                    neighbor_reward_mean, neighbor_reward_max,
+        #                    unvisited_neighbors
+        return [1.0] * len(features)
+
+client = MazeClient.from_config()
+bot = SmartBotBase(client, scorer=MyScorer())
+bot.run("medium-01")
+```
+
+## Local development
+
+```bash
+git clone https://github.com/arsalan-anwari/maze-kluster
+cd maze-kluster
 pip install -e ".[dev]"
-
-# just the terminal UI
-pip install -e ".[tui]"
-
-# just the docs toolchain
-pip install -e ".[docs]"
 ```
 
-Alternatively, use the pinned dev requirements file:
+Or use the pinned dev requirements:
 
 ```bash
 pip install -r requirements-dev.txt
 pip install -e .
 ```
 
-## Setup
+## Documentation
 
-Create a `connection.json` in the project root:
+Full API reference, TUI walkthrough, data-generation guide, and bot evaluation analysis are at **[docs.anwari.nl/maze_kluster](https://docs.anwari.nl/maze_kluster)**.
 
-```json
-{
-  "base_url": "https://maze.example.com",
-  "token": "your-token",
-  "player": {
-    "id": 0,
-    "name": "your-name"
-  }
-}
-```
+## Requirements
 
-Values can be pulled from environment variables using `${VAR_NAME}` syntax. Verify the connection with:
-
-```bash
-maze-kluster tui --list-mazes
-```
-
-## Generate training data and models
-
-```bash
-python data/generate.py      # runs baseline bot on training mazes
-python models/generate.py    # trains RF, GBT, and GP scorers
-```
-
-Add `--reset` to the first command if you need to wipe session progress and start over.
-
-## Run the TUI
-
-```bash
-maze-kluster tui
-```
-
-Pick a maze, pick a bot, and choose between a live run or a recorded replay. See [the docs](docs.anwari.nl/maze_kluster) for a full walkthrough and CLI reference.
-
-## Docs
-
-```bash
-./scripts/generate_docs.sh
-python -m http.server 8080 --directory docs/sphinx/out
-```
+- Python 3.11+
+- `networkx`, `pandas`, `scikit-learn`, `pydantic`, `pyarrow`, `requests`
+- `textual` (optional, for the TUI extra)
 
 ## License
 
-Apache 2.0. See [LICENSE](LICENSE).
+Apache 2.0 — see [LICENSE](LICENSE).

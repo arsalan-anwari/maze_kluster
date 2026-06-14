@@ -19,3 +19,4 @@ types-requests==2.33.0.20260518
 pandas-stubs
 ruff==0.15.17
 twine==4.0.2
+build==0.11.0
