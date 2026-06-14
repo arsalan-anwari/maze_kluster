@@ -40,9 +40,5 @@ Thumbs.db
 # metadata cache
 .metadata_cache/
 
-# Package data artifacts — copied in by scripts/upload_library.sh before build, removed after
-src/maze_kluster/models/data/*.pkl
-src/maze_kluster/data/mazes.json
-
 # Sphinx generated output
 docs/sphinx/out/
