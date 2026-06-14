@@ -1,0 +1,51 @@
+/* HTI Documentation: Dark Theme Style Guide
+   Base: shadcn/ui dark preset + two brand accents.
+   -----------------------------------------------------------------------
+   All figures produced in the analysis notebooks must derive their colours
+   from these tokens so that charts embed cleanly on the documentation site.
+   The Python implementation lives in analysis/style.py.
+   ----------------------------------------------------------------------- */
+
+:root {
+  /* --- page structure -------------------------------------------------- */
+  --background:   #09090b;   /* page canvas                                */
+  --surface:      #18181b;   /* card / panel / axes background             */
+  --border:       #27272a;   /* dividers, grid lines, axis spines          */
+
+  /* --- typography ------------------------------------------------------ */
+  --text:         #fafafa;   /* primary labels, titles, annotations        */
+  --muted:        #a1a1aa;   /* tick labels, secondary text                */
+
+  /* --- brand accents --------------------------------------------------- */
+  --accent-brown: #916f6f;   /* warm accent: primary series, bars, fills  */
+  --accent-gray:  #999999;   /* cool accent: secondary series             */
+
+  /* --- extended grayscale ramp ----------------------------------------- */
+  --gray-100:     #fafafa;   /* near-white: baseline series, bright text  */
+  --gray-200:     #d4d4d8;   /* light gray: GP series, light fills        */
+  --gray-300:     #a1a1aa;   /* medium-light gray                          */
+  --gray-400:     #71717a;   /* medium-dark gray                           */
+  --gray-500:     #52525b;   /* dark gray                                  */
+  --gray-600:     #3f3f46;
+  --gray-700:     #27272a;   /* alias: same as --border                    */
+
+  /* --- derived accent variants ----------------------------------------- */
+  --brown-light:  #b89090;   /* tinted brown for fifth series              */
+
+  /* --- chart series palette (ordered by visual priority) --------------- */
+  --series-1:     var(--gray-100);   /* baseline / DFS                     */
+  --series-2:     var(--accent-brown); /* RF                               */
+  --series-3:     var(--accent-gray);  /* GBT                              */
+  --series-4:     var(--gray-200);   /* GP                                 */
+  --series-5:     var(--brown-light);
+  --series-6:     var(--gray-300);
+  --series-7:     var(--gray-400);
+
+  /* --- colormaps (described; implemented in style.py) ------------------ */
+  /* score_cmap  : sequential  border → accent-brown → gray-100           */
+  /* div_cmap    : diverging   accent-gray → border → accent-brown        */
+
+  /* --- spacing & shape (for reference) --------------------------------- */
+  --radius:       0.5rem;
+  --radius-sm:    0.25rem;
+}

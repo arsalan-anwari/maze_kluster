@@ -1,0 +1,182 @@
+/* ---------------------------------------------------------------
+   maze-kluster docs: B&W theme with restrained brown accent
+   Dark mode selector: html.dark (specificity 0,1,1 beats theme's .dark 0,1,0)
+   --------------------------------------------------------------- */
+
+/* === Light: neutral B&W palette =================================
+   Override sphinxawesome's Tailwind HSL variables on :root.
+   ----------------------------------------------------------------*/
+:root {
+    --background:        0 0% 100%;
+    --foreground:        0 0% 6%;
+    --muted:             0 0% 96%;
+    --muted-foreground:  0 0% 42%;
+    --border:            0 0% 87%;
+    --input:             0 0% 87%;
+    --card:              0 0% 100%;
+    --card-foreground:   0 0% 6%;
+    --accent:            0 0% 94%;
+    --accent-foreground: 0 0% 6%;
+    --primary:           0 0% 8%;
+    --primary-foreground:0 0% 98%;
+    --ring:              0 0% 78%;
+}
+
+/* === Dark: pure black palette ===================================
+   html.dark has specificity (0,1,1) — beats theme.css's .dark (0,1,0).
+   ----------------------------------------------------------------*/
+html.dark {
+    --background:        0 0% 0%;
+    --foreground:        0 0% 93%;
+    --muted:             0 0% 8%;
+    --muted-foreground:  0 0% 58%;
+    --border:            0 0% 15%;
+    --input:             0 0% 15%;
+    --card:              0 0% 4%;
+    --card-foreground:   0 0% 93%;
+    --accent:            0 0% 11%;
+    --accent-foreground: 0 0% 93%;
+    --primary:           0 0% 93%;
+    --primary-foreground:0 0% 5%;
+    --ring:              0 0% 15%;
+}
+
+/* Explicit body + text fallback so browser paint matches vars */
+html.dark body {
+    background-color: #000;
+    color: #ededed;
+}
+
+/* Headings inherit body colour; this makes it unambiguous */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6 {
+    color: #ededed;
+}
+
+/* === Brown accent — used sparingly ============================== */
+:root {
+    --brand:       #916f6f;
+    --brand-hover: #7a5d5d;
+}
+
+html.dark {
+    --brand:       #b8908f;
+    --brand-hover: #c9a9a8;
+}
+
+/* Links only inside the main content area */
+#content a,
+#content a:visited {
+    color: var(--brand);
+}
+
+#content a:hover {
+    color: var(--brand-hover);
+    text-decoration: underline;
+}
+
+/* Headerlink anchor (¶) — dim it; don't colour it brown */
+a.headerlink {
+    color: hsl(var(--muted-foreground)) !important;
+    text-decoration: none;
+}
+
+a.headerlink:hover {
+    color: hsl(var(--foreground)) !important;
+}
+
+/* === Code blocks: left accent bar ================================ */
+div.highlight,
+.highlight-default,
+.highlight-python,
+.highlight-bash,
+.highlight-json {
+    border-left: 3px solid var(--brand);
+    border-radius: 0;
+}
+
+html.dark div.highlight {
+    background: #0a0a0a;
+}
+
+/* === Inline code ================================================= */
+code,
+tt,
+kbd {
+    border: 1px solid hsl(var(--border));
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-size: 0.9em;
+}
+
+html.dark code,
+html.dark tt,
+html.dark kbd {
+    background: #0d0d0d;
+    border-color: hsl(var(--border));
+    color: hsl(var(--foreground));
+}
+
+/* === Tables ====================================================== */
+table.docutils {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table.docutils th {
+    background: hsl(var(--muted));
+    color: hsl(var(--foreground));
+    border-bottom: 2px solid hsl(var(--border));
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+table.docutils td {
+    border-bottom: 1px solid hsl(var(--border));
+    padding: 8px 12px;
+}
+
+/* === Admonitions ================================================= */
+div.admonition {
+    border-left: 3px solid var(--brand);
+    background: hsl(var(--muted));
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+
+div.admonition p.admonition-title {
+    font-weight: 700;
+    color: var(--brand);
+    margin: 0 0 4px 0;
+}
+
+div.warning {
+    border-left-color: #cc4444;
+}
+
+div.warning p.admonition-title {
+    color: #cc4444;
+}
+
+/* === Navigation: active page uses subdued indicator ============= */
+.sidebar-tree a.current-page,
+nav a[aria-current="page"],
+.toc-tree a.active {
+    font-weight: 600;
+    border-left: 2px solid hsl(var(--muted-foreground));
+    padding-left: 8px;
+}
+
+/* === Secondary / caption text ==================================== */
+.caption,
+.breadcrumb,
+figcaption,
+.field-list th {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875em;
+}

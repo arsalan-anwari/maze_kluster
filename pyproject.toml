@@ -1,0 +1,80 @@
+[build-system]
+requires      = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name             = "maze-kluster"
+version          = "0.1.0"
+description      = "Maze-solving bot library with DFS baseline, ML-driven smart bots, and a terminal UI."
+authors          = [{ name = "Arsalan Anwari", email = "arsalan@anwari.nl" }]
+license          = { text = "Apache-2.0" }
+requires-python  = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Games/Entertainment :: Puzzle Games",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "hightech-amazeing==1.0.7",
+    "networkx>=3.6",
+    "pandas>=2.0",
+    "scikit-learn>=1.5",
+    "pydantic>=2.0",
+    "pyarrow>=14.0",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+tui = ["textual>=0.60"]
+docs = [
+    "sphinx>=7",
+    "sphinxawesome-theme>=5,<6",
+    "sphinx-autodoc-typehints",
+]
+dev = [
+    "pytest>=8",
+    "pytest-mock",
+    "pytest-cov",
+    "responses",
+    "mypy",
+    "types-requests",
+    "pandas-stubs",
+    "ruff",
+    "maze-kluster[tui]",
+    "maze-kluster[docs]",
+]
+
+[project.scripts]
+maze-kluster = "maze_kluster.__main__:main"
+
+[project.urls]
+Homepage   = "https://github.com/arsalan-anwari/maze-kluster"
+Repository = "https://github.com/arsalan-anwari/maze-kluster"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/maze_kluster"]
+
+[tool.mypy]
+strict = true
+
+[[tool.mypy.overrides]]
+module = ["networkx", "networkx.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["hightech_amazeing", "hightech_amazeing.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["sklearn", "sklearn.*"]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]

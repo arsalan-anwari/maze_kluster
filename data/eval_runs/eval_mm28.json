@@ -1,0 +1,178 @@
+[
+  {
+    "maze": "Gradius Pathways",
+    "bot": "baseline",
+    "max_moves": 28,
+    "score_in_bag": 202.0,
+    "score_lost": 0.0,
+    "total_moves": 42,
+    "tiles_visited": 23,
+    "total_tiles": 26,
+    "potential_reward": 232.0
+  },
+  {
+    "maze": "O Contra",
+    "bot": "baseline",
+    "max_moves": 28,
+    "score_in_bag": 166.0,
+    "score_lost": 0.0,
+    "total_moves": 33,
+    "tiles_visited": 23,
+    "total_tiles": 26,
+    "potential_reward": 196.0
+  },
+  {
+    "maze": "Glasses",
+    "bot": "baseline",
+    "max_moves": 28,
+    "score_in_bag": 212.0,
+    "score_lost": 0.0,
+    "total_moves": 38,
+    "tiles_visited": 24,
+    "total_tiles": 30,
+    "potential_reward": 272.0
+  },
+  {
+    "maze": "Reverse",
+    "bot": "baseline",
+    "max_moves": 28,
+    "score_in_bag": 236.0,
+    "score_lost": 0.0,
+    "total_moves": 44,
+    "tiles_visited": 30,
+    "total_tiles": 30,
+    "potential_reward": 236.0
+  },
+  {
+    "maze": "Gradius Pathways",
+    "bot": "rf",
+    "max_moves": 28,
+    "score_in_bag": 232.0,
+    "score_lost": 0.0,
+    "total_moves": 40,
+    "tiles_visited": 26,
+    "total_tiles": 26,
+    "potential_reward": 232.0
+  },
+  {
+    "maze": "O Contra",
+    "bot": "rf",
+    "max_moves": 28,
+    "score_in_bag": 166.0,
+    "score_lost": 0.0,
+    "total_moves": 31,
+    "tiles_visited": 23,
+    "total_tiles": 26,
+    "potential_reward": 196.0
+  },
+  {
+    "maze": "Glasses",
+    "bot": "rf",
+    "max_moves": 28,
+    "score_in_bag": 272.0,
+    "score_lost": 0.0,
+    "total_moves": 68,
+    "tiles_visited": 30,
+    "total_tiles": 30,
+    "potential_reward": 272.0
+  },
+  {
+    "maze": "Reverse",
+    "bot": "rf",
+    "max_moves": 28,
+    "score_in_bag": 234.0,
+    "score_lost": 0.0,
+    "total_moves": 38,
+    "tiles_visited": 28,
+    "total_tiles": 30,
+    "potential_reward": 236.0
+  },
+  {
+    "maze": "Gradius Pathways",
+    "bot": "gbt",
+    "max_moves": 28,
+    "score_in_bag": 232.0,
+    "score_lost": 0.0,
+    "total_moves": 36,
+    "tiles_visited": 26,
+    "total_tiles": 26,
+    "potential_reward": 232.0
+  },
+  {
+    "maze": "O Contra",
+    "bot": "gbt",
+    "max_moves": 28,
+    "score_in_bag": 166.0,
+    "score_lost": 0.0,
+    "total_moves": 31,
+    "tiles_visited": 23,
+    "total_tiles": 26,
+    "potential_reward": 196.0
+  },
+  {
+    "maze": "Glasses",
+    "bot": "gbt",
+    "max_moves": 28,
+    "score_in_bag": 272.0,
+    "score_lost": 0.0,
+    "total_moves": 68,
+    "tiles_visited": 30,
+    "total_tiles": 30,
+    "potential_reward": 272.0
+  },
+  {
+    "maze": "Reverse",
+    "bot": "gbt",
+    "max_moves": 28,
+    "score_in_bag": 236.0,
+    "score_lost": 0.0,
+    "total_moves": 42,
+    "tiles_visited": 30,
+    "total_tiles": 30,
+    "potential_reward": 236.0
+  },
+  {
+    "maze": "Gradius Pathways",
+    "bot": "gp",
+    "max_moves": 28,
+    "score_in_bag": 202.0,
+    "score_lost": 0.0,
+    "total_moves": 34,
+    "tiles_visited": 23,
+    "total_tiles": 26,
+    "potential_reward": 232.0
+  },
+  {
+    "maze": "O Contra",
+    "bot": "gp",
+    "max_moves": 28,
+    "score_in_bag": 196.0,
+    "score_lost": 0.0,
+    "total_moves": 39,
+    "tiles_visited": 26,
+    "total_tiles": 26,
+    "potential_reward": 196.0
+  },
+  {
+    "maze": "Glasses",
+    "bot": "gp",
+    "max_moves": 28,
+    "score_in_bag": 272.0,
+    "score_lost": 0.0,
+    "total_moves": 68,
+    "tiles_visited": 30,
+    "total_tiles": 30,
+    "potential_reward": 272.0
+  },
+  {
+    "maze": "Reverse",
+    "bot": "gp",
+    "max_moves": 28,
+    "score_in_bag": 234.0,
+    "score_lost": 0.0,
+    "total_moves": 38,
+    "tiles_visited": 28,
+    "total_tiles": 30,
+    "potential_reward": 236.0
+  }
+]

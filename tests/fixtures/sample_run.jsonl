@@ -1,0 +1,5 @@
+{"step": 1, "pos": [1, 0], "tile_type": "o", "score": 0, "score_hand": 1, "moves": 1, "frontier_size": 1}
+{"step": 2, "pos": [2, 0], "tile_type": "x", "score": 0, "score_hand": 1, "moves": 2, "frontier_size": 1}
+{"step": 3, "pos": [3, 0], "tile_type": "C", "score": 0, "score_hand": 1, "moves": 3, "frontier_size": 1}
+{"step": 4, "pos": [3, 0], "tile_type": "C", "score": 1, "score_hand": 0, "moves": 4, "frontier_size": 1}
+{"step": 5, "pos": [4, 0], "tile_type": "E", "score": 1, "score_hand": 0, "moves": 5, "frontier_size": 0}

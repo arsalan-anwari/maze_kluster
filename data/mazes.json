@@ -1,0 +1,19 @@
+[
+  { "name": "Test",             "totalTiles": 5,    "potentialReward": 1    },
+  { "name": "Spiral Of Doom",   "totalTiles": 1225, "potentialReward": 4    },
+  { "name": "Exit",             "totalTiles": 11,   "potentialReward": 82   },
+  { "name": "Easy deal",        "totalTiles": 17,   "potentialReward": 142  },
+  { "name": "Gradius Pathways", "totalTiles": 26,   "potentialReward": 232  },
+  { "name": "PacMan",           "totalTiles": 298,  "potentialReward": 1209 },
+  { "name": "Hello Maze",       "totalTiles": 8,    "potentialReward": 52   },
+  { "name": "Example Maze",     "totalTiles": 17,   "potentialReward": 104  },
+  { "name": "O Contra",         "totalTiles": 26,   "potentialReward": 196  },
+  { "name": "Egg",              "totalTiles": 31,   "potentialReward": 61   },
+  { "name": "Glasses",          "totalTiles": 30,   "potentialReward": 272  },
+  { "name": "Reverse",          "totalTiles": 30,   "potentialReward": 236  },
+  { "name": "Dig Down",         "totalTiles": 26,   "potentialReward": 232  },
+  { "name": "Michiel",          "totalTiles": 25,   "potentialReward": 40   },
+  { "name": "Loops",            "totalTiles": 15,   "potentialReward": 122  },
+  { "name": "Needle",           "totalTiles": 930,  "potentialReward": 8    },
+  { "name": "Void",             "totalTiles": 678,  "potentialReward": 1    }
+]

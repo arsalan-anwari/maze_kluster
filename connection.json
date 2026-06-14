@@ -1,0 +1,8 @@
+{
+  "base_url": "https://maze.kluster.htiprojects.nl",
+  "api_key": "${MAZE_KLUSTER_API_KEY}",
+  "player": {
+    "playerId": "1052",
+    "name": "arsalan"
+  }
+}

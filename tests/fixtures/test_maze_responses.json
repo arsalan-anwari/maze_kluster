@@ -1,0 +1,169 @@
+{
+  "test_maze": {
+    "maze_name": "Test",
+    "sequence": [
+      {
+        "call": "GET /api/mazes/all",
+        "endpoint_path": "/api/mazes/all",
+        "response": [
+          {"name": "Test", "totalTiles": 5, "potentialReward": 1}
+        ]
+      },
+      {
+        "call": "POST /api/mazes/enter",
+        "endpoint_path": "/api/mazes/enter",
+        "body": {"mazeName": "Test"},
+        "response": {}
+      },
+      {
+        "call": "GET /api/maze/possibleActions",
+        "endpoint_path": "/api/maze/possibleActions",
+        "response": {
+          "possibleMoveActions": [
+            {
+              "direction": "Right",
+              "isStart": false,
+              "allowsExit": false,
+              "allowsScoreCollection": false,
+              "hasBeenVisited": false,
+              "numberOfVisitsToTile": 0,
+              "rewardOnDestination": 1
+            }
+          ],
+          "canCollectScoreHere": false,
+          "canExitMazeHere": false,
+          "currentScoreInHand": 0,
+          "currentScoreInBag": 0
+        }
+      },
+      {
+        "call": "POST /api/maze/move (Right -> o(1,0))",
+        "endpoint_path": "/api/maze/move",
+        "body": {"direction": "Right"},
+        "response": {
+          "possibleMoveActions": [
+            {
+              "direction": "Left",
+              "isStart": true,
+              "allowsExit": false,
+              "allowsScoreCollection": false,
+              "hasBeenVisited": true,
+              "numberOfVisitsToTile": 1,
+              "rewardOnDestination": 0
+            },
+            {
+              "direction": "Right",
+              "isStart": false,
+              "allowsExit": false,
+              "allowsScoreCollection": false,
+              "hasBeenVisited": false,
+              "numberOfVisitsToTile": 0,
+              "rewardOnDestination": 0
+            }
+          ],
+          "canCollectScoreHere": false,
+          "canExitMazeHere": false,
+          "currentScoreInHand": 1,
+          "currentScoreInBag": 0
+        }
+      },
+      {
+        "call": "POST /api/maze/move (Right -> x(2,0))",
+        "endpoint_path": "/api/maze/move",
+        "body": {"direction": "Right"},
+        "response": {
+          "possibleMoveActions": [
+            {
+              "direction": "Left",
+              "isStart": false,
+              "allowsExit": false,
+              "allowsScoreCollection": false,
+              "hasBeenVisited": true,
+              "numberOfVisitsToTile": 1,
+              "rewardOnDestination": 1
+            },
+            {
+              "direction": "Right",
+              "isStart": false,
+              "allowsExit": false,
+              "allowsScoreCollection": true,
+              "hasBeenVisited": false,
+              "numberOfVisitsToTile": 0,
+              "rewardOnDestination": 0
+            }
+          ],
+          "canCollectScoreHere": false,
+          "canExitMazeHere": false,
+          "currentScoreInHand": 1,
+          "currentScoreInBag": 0
+        }
+      },
+      {
+        "call": "POST /api/maze/move (Right -> C(3,0))",
+        "endpoint_path": "/api/maze/move",
+        "body": {"direction": "Right"},
+        "response": {
+          "possibleMoveActions": [
+            {
+              "direction": "Left",
+              "isStart": false,
+              "allowsExit": false,
+              "allowsScoreCollection": false,
+              "hasBeenVisited": true,
+              "numberOfVisitsToTile": 1,
+              "rewardOnDestination": 0
+            },
+            {
+              "direction": "Right",
+              "isStart": false,
+              "allowsExit": true,
+              "allowsScoreCollection": false,
+              "hasBeenVisited": false,
+              "numberOfVisitsToTile": 0,
+              "rewardOnDestination": 0
+            }
+          ],
+          "canCollectScoreHere": true,
+          "canExitMazeHere": false,
+          "currentScoreInHand": 1,
+          "currentScoreInBag": 0
+        }
+      },
+      {
+        "call": "POST /api/maze/collectScore",
+        "endpoint_path": "/api/maze/collectScore",
+        "response": {
+          "currentScoreInHand": 0,
+          "currentScoreInBag": 1
+        }
+      },
+      {
+        "call": "POST /api/maze/move (Right -> E(4,0))",
+        "endpoint_path": "/api/maze/move",
+        "body": {"direction": "Right"},
+        "response": {
+          "possibleMoveActions": [
+            {
+              "direction": "Left",
+              "isStart": false,
+              "allowsExit": false,
+              "allowsScoreCollection": true,
+              "hasBeenVisited": true,
+              "numberOfVisitsToTile": 1,
+              "rewardOnDestination": 0
+            }
+          ],
+          "canCollectScoreHere": false,
+          "canExitMazeHere": true,
+          "currentScoreInHand": 0,
+          "currentScoreInBag": 1
+        }
+      },
+      {
+        "call": "POST /api/maze/exit",
+        "endpoint_path": "/api/maze/exit",
+        "response": {}
+      }
+    ]
+  }
+}

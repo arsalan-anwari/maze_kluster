@@ -1,0 +1,21 @@
+-r requirements.txt
+-r analysis/requirements.txt
+
+# tui extra
+textual==8.2.7
+
+# docs extra
+sphinx>=7
+sphinxawesome-theme==5.3.2
+sphinx-autodoc-typehints
+
+# dev tools
+pytest==9.0.3
+pytest-mock==3.15.1
+pytest-cov==7.1.0
+responses==0.26.1
+mypy==2.1.0
+types-requests==2.33.0.20260518
+pandas-stubs
+ruff==0.15.17
+twine==4.0.2
