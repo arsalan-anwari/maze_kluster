@@ -6,8 +6,8 @@ from pathlib import Path
 import responses as responses_lib
 
 from maze_kluster.api import MazeClient
-from maze_kluster.bots.baseline import BaselineBot
 from maze_kluster.bots.base import BotProtocol
+from maze_kluster.bots.baseline import BaselineBot
 
 BASE_URL = "https://maze.kluster.htiprojects.nl"
 FIXTURE_PATH = Path(__file__).parent.parent / "fixtures" / "test_maze_responses.json"
@@ -47,9 +47,7 @@ def test_baseline_visits_all_tiles() -> None:
 def test_baseline_collects_score_at_c_tile() -> None:
     _register(_load_sequence())
     result = _make_bot().run("Test")
-    collect_calls = [
-        c for c in responses_lib.calls if "/api/maze/collectScore" in c.request.url
-    ]
+    collect_calls = [c for c in responses_lib.calls if "/api/maze/collectScore" in c.request.url]
     assert len(collect_calls) == 1
     assert result.score_in_bag == 1.0
     assert result.score_lost == 0.0
@@ -59,9 +57,7 @@ def test_baseline_collects_score_at_c_tile() -> None:
 def test_baseline_calls_exit_once() -> None:
     _register(_load_sequence())
     _make_bot().run("Test")
-    exit_calls = [
-        c for c in responses_lib.calls if "/api/maze/exit" in c.request.url
-    ]
+    exit_calls = [c for c in responses_lib.calls if "/api/maze/exit" in c.request.url]
     assert len(exit_calls) == 1
 
 

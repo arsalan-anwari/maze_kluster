@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-
 FIXTURE = Path(__file__).parent.parent / "fixtures" / "sample_run.jsonl"
 
 

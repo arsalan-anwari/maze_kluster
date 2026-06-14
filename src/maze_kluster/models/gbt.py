@@ -44,7 +44,15 @@ class GBTScorer:
         return save_model(self._model, path)
 
     @classmethod
-    def load(cls) -> GBTScorer:
+    def load(cls, path: Path | None = None) -> GBTScorer:
         inst = cls()
-        inst._model = load_model("gbt.pkl")
+        if path is not None:
+            if not path.exists():
+                raise FileNotFoundError(path)
+            with path.open("rb") as f:
+                import pickle
+
+                inst._model = pickle.load(f)  # noqa: S301
+        else:
+            inst._model = load_model("gbt.pkl")
         return inst

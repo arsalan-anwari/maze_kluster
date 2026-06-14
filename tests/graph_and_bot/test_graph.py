@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import pytest
-
 from maze_kluster.api import Neighbor
 from maze_kluster.enums import Direction, TileSymbol
 from maze_kluster.graph import MazeGraph
@@ -53,7 +51,11 @@ def test_add_to_frontier() -> None:
     graph.add_to_frontier((2, 0))
     assert (2, 0) in graph.frontier
     graph.add_to_frontier((2, 0))
-    assert graph.frontier.count((2, 0)) if hasattr(graph.frontier, "count") else len([x for x in graph.frontier if x == (2, 0)]) == 1
+    assert (
+        graph.frontier.count((2, 0))
+        if hasattr(graph.frontier, "count")
+        else len([x for x in graph.frontier if x == (2, 0)]) == 1
+    )
 
 
 def test_add_to_frontier_skips_visited() -> None:

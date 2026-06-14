@@ -17,9 +17,7 @@ def _make_runlog(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> RunLog:
     return RunLog("Test", "baseline")
 
 
-def test_record_step_writes_valid_jsonl(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_record_step_writes_valid_jsonl(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     runlog = _make_runlog(tmp_path, monkeypatch)
     runlog.record_step((1, 0), TileSymbol.Reward, 5.0, 0.0, 3)
     runlog.record_step((2, 0), TileSymbol.Collectible, 0.0, 5.0, 2)
@@ -32,9 +30,7 @@ def test_record_step_writes_valid_jsonl(
         assert set(data.keys()) == EXPECTED_STEP_KEYS
 
 
-def test_record_step_increments_step(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_record_step_increments_step(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     runlog = _make_runlog(tmp_path, monkeypatch)
     for _ in range(3):
         runlog.record_step((0, 0), TileSymbol.Reward, 0.0, 0.0, 1)
@@ -45,9 +41,7 @@ def test_record_step_increments_step(
     assert steps == [1, 2, 3]
 
 
-def test_file_grows_monotonically(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_file_grows_monotonically(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     runlog = _make_runlog(tmp_path, monkeypatch)
     prev_size = runlog.path.stat().st_size
 
@@ -60,9 +54,7 @@ def test_file_grows_monotonically(
     runlog.close()
 
 
-def test_replay_reads_back_correctly(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_replay_reads_back_correctly(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     runlog = _make_runlog(tmp_path, monkeypatch)
     positions = [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0)]
     frontier_sizes = [5, 4, 3, 2, 1]

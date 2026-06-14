@@ -28,7 +28,7 @@ Create a `connection.json` in your working directory:
 }
 ```
 
-Environment-variable substitution is supported — e.g. `"api_key": "${MY_API_KEY}"`.
+Environment-variable substitution is supported (e.g. `"api_key": "${MY_API_KEY}"`).
 
 ### 2. Run a bot in Python
 
@@ -144,6 +144,46 @@ pip install -r requirements-dev.txt
 pip install -e .
 ```
 
+### Running tests
+
+```bash
+pytest                          # all tests
+pytest tests/graph_and_bot/     # single module
+pytest --cov=maze_kluster -q    # with coverage
+```
+
+### CI checks locally with `act`
+
+[`act`](https://github.com/nektos/act) runs the GitHub Actions workflow locally using Docker or Podman, so there is a single source of truth for what CI checks and how.
+
+Install via the official script (note: the `act` package in most Linux repos is a different unrelated tool):
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash -s -- -b ~/.local/bin
+```
+
+On first run it prompts for a runner image choose **Medium** (~500 MB). This is saved to `~/.config/act/actrc` and not asked again. Run lint first so the container image downloads before you run everything:
+
+```bash
+act push -j lint          # pulls the runner image on first use (~500 MB, one-time download)
+```
+
+Then run all jobs in sequence (avoids the parallel race condition act has with shared tool caches):
+
+```bash
+bash scripts/test_ci.sh
+```
+
+Or run individual jobs:
+
+```bash
+act push -j lint                                  # lint only
+act push -j typecheck                             # type check only
+act push -j test --matrix python-version:3.11     # specific matrix cell
+act push -j build                                 # build wheel
+act pull_request                                  # simulate a PR trigger
+```
+
 ## Documentation
 
 Full API reference, TUI walkthrough, data-generation guide, and bot evaluation analysis are at **[docs.anwari.nl/maze_kluster](https://docs.anwari.nl/maze_kluster)**.
@@ -156,4 +196,4 @@ Full API reference, TUI walkthrough, data-generation guide, and bot evaluation a
 
 ## License
 
-Apache 2.0 — see [LICENSE](LICENSE).
+Apache 2.0. See [LICENSE](LICENSE).

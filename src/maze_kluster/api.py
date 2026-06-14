@@ -15,6 +15,7 @@ _ENV_VAR_RE = re.compile(r"\$\{([^}]+)\}")
 
 def _resolve(value: str) -> str:
     """Substitute ${VAR} placeholders in a string with their environment variable values."""
+
     def _sub(m: re.Match[str]) -> str:
         var = m.group(1)
         try:
@@ -95,9 +96,7 @@ class MazeClient:
 
     def enter_maze(self, name: str) -> None:
         """Enter the named maze, exiting the current one first if necessary."""
-        response = self._session.post(
-            f"{self._base}/api/mazes/enter", params={"mazeName": name}
-        )
+        response = self._session.post(f"{self._base}/api/mazes/enter", params={"mazeName": name})
         if response.status_code == 409:
             # 409 has two causes: (a) stuck inside another maze, exit and retry;
             # (b) maze already completed, exit returns 412, so re-raise the 409.
@@ -142,7 +141,5 @@ class MazeClient:
 
     def register(self, name: str) -> None:
         """Re-register the player after forget(). The auth token remains valid."""
-        response = self._session.post(
-            f"{self._base}/api/player/register", params={"name": name}
-        )
+        response = self._session.post(f"{self._base}/api/player/register", params={"name": name})
         response.raise_for_status()

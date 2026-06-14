@@ -11,9 +11,9 @@ from maze_kluster.models.rf import RFScorer
 
 BOTS: dict[str, Callable[..., BotProtocol]] = {
     "baseline": BaselineBot,
-    "rf":  lambda client: SmartBotBase(client=client, scorer=RFScorer.load()),
+    "rf": lambda client: SmartBotBase(client=client, scorer=RFScorer.load()),
     "gbt": lambda client: SmartBotBase(client=client, scorer=GBTScorer.load()),
-    "gp":  lambda client: SmartBotBase(client=client, scorer=GPUCBScorer.load()),
+    "gp": lambda client: SmartBotBase(client=client, scorer=GPUCBScorer.load()),
 }
 
 __all__ = ["BOTS", "BaselineBot", "BotProtocol", "SmartBotBase"]

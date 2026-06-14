@@ -62,7 +62,15 @@ class GPUCBScorer:
         return save_model(self._pipeline, path)
 
     @classmethod
-    def load(cls) -> GPUCBScorer:
+    def load(cls, path: Path | None = None) -> GPUCBScorer:
         inst = cls()
-        inst._pipeline = load_model("gp.pkl")
+        if path is not None:
+            if not path.exists():
+                raise FileNotFoundError(path)
+            with path.open("rb") as f:
+                import pickle
+
+                inst._pipeline = pickle.load(f)  # noqa: S301
+        else:
+            inst._pipeline = load_model("gp.pkl")
         return inst

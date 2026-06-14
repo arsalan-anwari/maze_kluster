@@ -59,9 +59,7 @@ class TileLogger:
     ) -> None:
         node = graph.graph.nodes[pos]
         neighbors = list(graph.graph.neighbors(pos))
-        neighbor_rewards: list[float] = [
-            float(graph.graph.nodes[n]["reward"]) for n in neighbors
-        ]
+        neighbor_rewards: list[float] = [float(graph.graph.nodes[n]["reward"]) for n in neighbors]
         degree = int(graph.graph.degree(pos))
         row: RecordRow = {
             "maze_name": self._maze_name,
@@ -74,16 +72,10 @@ class TileLogger:
             "visit_order": visit_order,
             "times_visited": int(node["visit_count"]),
             "neighbor_reward_mean": (
-                float(sum(neighbor_rewards) / len(neighbor_rewards))
-                if neighbor_rewards
-                else 0.0
+                float(sum(neighbor_rewards) / len(neighbor_rewards)) if neighbor_rewards else 0.0
             ),
-            "neighbor_reward_max": (
-                float(max(neighbor_rewards)) if neighbor_rewards else 0.0
-            ),
-            "unvisited_neighbors": sum(
-                1 for n in neighbors if n not in graph.visited
-            ),
+            "neighbor_reward_max": (float(max(neighbor_rewards)) if neighbor_rewards else 0.0),
+            "unvisited_neighbors": sum(1 for n in neighbors if n not in graph.visited),
             "maze_total_tiles": self._total_tiles,
             "maze_potential_reward": float(self._potential_reward),
         }

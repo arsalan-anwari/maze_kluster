@@ -10,20 +10,18 @@ if TYPE_CHECKING:
     from maze_kluster.api import Neighbor
 
 DIRECTION_DELTA: dict[Direction, tuple[int, int]] = {
-    Direction.Up:    (0, 1),
-    Direction.Down:  (0, -1),
+    Direction.Up: (0, 1),
+    Direction.Down: (0, -1),
     Direction.Right: (1, 0),
-    Direction.Left:  (-1, 0),
+    Direction.Left: (-1, 0),
 }
 
-DELTA_TO_DIRECTION: dict[tuple[int, int], Direction] = {
-    v: k for k, v in DIRECTION_DELTA.items()
-}
+DELTA_TO_DIRECTION: dict[tuple[int, int], Direction] = {v: k for k, v in DIRECTION_DELTA.items()}
 
 OPPOSITE: dict[Direction, Direction] = {
-    Direction.Up:    Direction.Down,
-    Direction.Down:  Direction.Up,
-    Direction.Left:  Direction.Right,
+    Direction.Up: Direction.Down,
+    Direction.Down: Direction.Up,
+    Direction.Left: Direction.Right,
     Direction.Right: Direction.Left,
 }
 
@@ -71,7 +69,8 @@ class MazeGraph:
         return [n for n in self.graph.neighbors(pos) if n not in self.visited]
 
     def backtrack_target(self) -> tuple[int, int] | None:
-        """Return the nearest unvisited frontier node by graph distance, or None if frontier is empty."""
+        """Return the nearest unvisited frontier node by graph distance,
+        or None if frontier is empty."""
         if not self.frontier:
             return None
         return min(
@@ -100,7 +99,8 @@ class MazeGraph:
 
     def nearest_exit(self, pos: tuple[int, int]) -> tuple[int, int] | None:
         exits = [
-            n for n in self.graph.nodes
+            n
+            for n in self.graph.nodes
             if self.graph.nodes[n].get("tile_type") == TileSymbol.Exit
             or self.graph.nodes[n].get("allows_exit")
         ]
@@ -113,7 +113,8 @@ class MazeGraph:
 
     def nearest_collectible(self, pos: tuple[int, int]) -> tuple[int, int] | None:
         collectibles = [
-            n for n in self.graph.nodes
+            n
+            for n in self.graph.nodes
             if self.graph.nodes[n].get("tile_type") == TileSymbol.Collectible
         ]
         if not collectibles:
@@ -123,9 +124,7 @@ class MazeGraph:
             min(collectibles, key=lambda n: cast(int, nx.shortest_path_length(self.graph, pos, n))),
         )
 
-    def apply_neighbors(
-        self, neighbors: list[Neighbor], current_pos: tuple[int, int]
-    ) -> None:
+    def apply_neighbors(self, neighbors: list[Neighbor], current_pos: tuple[int, int]) -> None:
         """Sync the local graph with the neighbors reported by the API after a move."""
         for neighbor in neighbors:
             dx, dy = DIRECTION_DELTA[neighbor.direction]

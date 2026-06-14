@@ -13,9 +13,7 @@ from maze_kluster.graph import DIRECTION_DELTA, MazeGraph
 from maze_kluster.models.protocol import ScorerProtocol
 
 
-def _build_frontier_features(
-    graph: MazeGraph, nodes: list[tuple[int, int]]
-) -> pd.DataFrame:
+def _build_frontier_features(graph: MazeGraph, nodes: list[tuple[int, int]]) -> pd.DataFrame:
     """Build a feature row for each frontier node so the scorer can rank them."""
     rows = []
     for pos in nodes:
@@ -28,14 +26,10 @@ def _build_frontier_features(
                 "actual_degree": int(graph.graph.degree(pos)),
                 "is_dead_end": int(graph.graph.degree(pos)) == 1,
                 "neighbor_reward_mean": (
-                    sum(neighbor_rewards) / len(neighbor_rewards)
-                    if neighbor_rewards
-                    else 0.0
+                    sum(neighbor_rewards) / len(neighbor_rewards) if neighbor_rewards else 0.0
                 ),
                 "neighbor_reward_max": max(neighbor_rewards) if neighbor_rewards else 0.0,
-                "unvisited_neighbors": sum(
-                    1 for n in neighbors if n not in graph.visited
-                ),
+                "unvisited_neighbors": sum(1 for n in neighbors if n not in graph.visited),
             }
         )
     return pd.DataFrame(rows)
@@ -174,18 +168,14 @@ class SmartBotBase:
         score_in_hand: float = 0.0,
         force_exit: bool = False,
     ) -> Direction:
-        """Rank frontier nodes with the scorer, adjust by distance, then move toward the best one."""
+        """Rank frontier nodes with the scorer, adjust by distance, then move toward the best
+        one."""
         if not force_exit and graph.frontier:
             frontier_nodes = list(graph.frontier)
             features = _build_frontier_features(graph, frontier_nodes)
             scores = self._scorer.score(features)
-            distances = nx.single_source_shortest_path_length(
-                graph.graph, graph.current_pos
-            )
-            adjusted = [
-                s / max(distances.get(n, 1), 1)
-                for s, n in zip(scores, frontier_nodes)
-            ]
+            distances = nx.single_source_shortest_path_length(graph.graph, graph.current_pos)
+            adjusted = [s / max(distances.get(n, 1), 1) for s, n in zip(scores, frontier_nodes)]
             best_idx = adjusted.index(max(adjusted))
             target = frontier_nodes[best_idx]
             return graph.path_to(target)[0]
@@ -206,9 +196,7 @@ class SmartBotBase:
         if exit_target is None and known_exits:
             exit_target = min(
                 known_exits,
-                key=lambda n: cast(
-                    int, nx.shortest_path_length(graph.graph, graph.current_pos, n)
-                ),
+                key=lambda n: cast(int, nx.shortest_path_length(graph.graph, graph.current_pos, n)),
             )
         if exit_target is None:
             raise RuntimeError("Frontier exhausted but no exit tile found in graph")

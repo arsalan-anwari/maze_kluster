@@ -9,8 +9,8 @@ import requests
 from textual.app import App, ComposeResult
 from textual.binding import Binding, BindingType
 from textual.containers import Container, Horizontal
-from textual.theme import Theme
 from textual.screen import ModalScreen, Screen
+from textual.theme import Theme
 from textual.timer import Timer
 from textual.widgets import (
     Button,
@@ -122,6 +122,7 @@ def _load_mazes() -> list[str]:
             data: list[Any] = json.loads(local.read_text())
         else:
             from importlib.resources import files
+
             data = json.loads(files("maze_kluster.data").joinpath("mazes.json").read_text())
         return [str(m["name"]) for m in data]
     except Exception:
@@ -271,15 +272,14 @@ class MainMenuScreen(Screen[None]):
                 return
             bot_val = bot_select.value
             bot_name = str(bot_val) if not isinstance(bot_val, NoSelection) else "baseline"
-            self.app.push_screen(
-                RunScreen(mode="live", maze_name=str(maze_val), bot_name=bot_name)
-            )
+            self.app.push_screen(RunScreen(mode="live", maze_name=str(maze_val), bot_name=bot_name))
         else:
             log_path = self.query_one("#log-input", Input).value.strip()
             if not log_path:
                 self.notify("Please enter a log path", severity="error")
                 return
             self.app.push_screen(RunScreen(mode="replay", log_path=log_path))
+
 
 class BotMenuScreen(ModalScreen[tuple[str, str] | None]):
     """Modal for switching bots or loading a replay log mid-run."""
@@ -441,9 +441,15 @@ class RunScreen(Screen[None]):
             self._finished = True
             grid = render_grid(MazeGraph(), (-9999, -9999))
             stats = _format_stats(
-                self._maze_name, self._bot_name, self._step, self._score_in_bag,
-                self._score_in_hand, self._total_reward,
-                self._frontier_size, self._delay, self._finished,
+                self._maze_name,
+                self._bot_name,
+                self._step,
+                self._score_in_bag,
+                self._score_in_hand,
+                self._total_reward,
+                self._frontier_size,
+                self._delay,
+                self._finished,
             )
             self._apply_display(grid, stats)
             return
@@ -469,9 +475,15 @@ class RunScreen(Screen[None]):
 
         grid = render_grid(graph, pos)
         stats = _format_stats(
-            self._maze_name, self._bot_name, self._step, self._score_in_bag,
-            self._score_in_hand, self._total_reward,
-            self._frontier_size, self._delay, self._finished,
+            self._maze_name,
+            self._bot_name,
+            self._step,
+            self._score_in_bag,
+            self._score_in_hand,
+            self._total_reward,
+            self._frontier_size,
+            self._delay,
+            self._finished,
         )
         self._apply_display(grid, stats)
 
@@ -519,8 +531,15 @@ class RunScreen(Screen[None]):
 
             grid = render_grid(graph, (0, 0))
             stats = _format_stats(
-                self._maze_name, self._bot_name, step, score_in_bag, score_in_hand,
-                total_reward, len(graph.frontier), self._delay, False,
+                self._maze_name,
+                self._bot_name,
+                step,
+                score_in_bag,
+                score_in_hand,
+                total_reward,
+                len(graph.frontier),
+                self._delay,
+                False,
             )
             self.app.call_from_thread(self._apply_display, grid, stats)
 
@@ -535,8 +554,15 @@ class RunScreen(Screen[None]):
                     client.exit_maze()
                     grid = render_grid(graph, graph.current_pos)
                     stats = _format_stats(
-                        self._maze_name, self._bot_name, step, score_in_bag, score_in_hand,
-                        total_reward, 0, self._delay, True,
+                        self._maze_name,
+                        self._bot_name,
+                        step,
+                        score_in_bag,
+                        score_in_hand,
+                        total_reward,
+                        0,
+                        self._delay,
+                        True,
                     )
                     self.app.call_from_thread(self._apply_display, grid, stats)
                     break
@@ -555,8 +581,15 @@ class RunScreen(Screen[None]):
 
                 grid = render_grid(graph, new_pos)
                 stats = _format_stats(
-                    self._maze_name, self._bot_name, step, score_in_bag, score_in_hand,
-                    total_reward, len(graph.frontier), self._delay, False,
+                    self._maze_name,
+                    self._bot_name,
+                    step,
+                    score_in_bag,
+                    score_in_hand,
+                    total_reward,
+                    len(graph.frontier),
+                    self._delay,
+                    False,
                 )
                 self.app.call_from_thread(self._apply_display, grid, stats)
                 time.sleep(self._delay)

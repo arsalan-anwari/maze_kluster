@@ -47,7 +47,15 @@ class RFScorer:
         return save_model(self._model, path)
 
     @classmethod
-    def load(cls) -> RFScorer:
+    def load(cls, path: Path | None = None) -> RFScorer:
         inst = cls()
-        inst._model = load_model("rf.pkl")
+        if path is not None:
+            if not path.exists():
+                raise FileNotFoundError(path)
+            with path.open("rb") as f:
+                import pickle
+
+                inst._model = pickle.load(f)  # noqa: S301
+        else:
+            inst._model = load_model("rf.pkl")
         return inst
