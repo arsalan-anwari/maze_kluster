@@ -67,9 +67,11 @@ have reached the high-reward areas yet.
 Feature importances
 -------------------
 
-The RF model confirms that ``neighbor_reward_mean`` and ``neighbor_reward_max``
-are the most informative features, which matches the correlation we found during
-exploration. The GBT model agrees on the ranking, which supports the feature selection.
+The RF model confirms that ``neighbor_reward_mean`` is by far the most informative
+feature (importance ~0.53), consistent with the Pearson correlation found during
+exploration. The next most informative features are ``tile_type_exit`` (~0.11) and
+``tile_type_collectible`` (~0.09). Notably, ``neighbor_reward_max`` is the least
+informative feature (~0.02) despite being a neighbor-reward statistic.
 
 .. image:: ../../res/analysis/evaluate/rf-feature-importances.svg
    :alt: RF feature importances

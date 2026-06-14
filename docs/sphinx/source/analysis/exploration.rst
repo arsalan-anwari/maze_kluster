@@ -11,9 +11,11 @@ layout (Hello Maze, Exit, Loops, Easy deal, Michiel, Dig Down, Egg).
 Finding 1: tile type and reward
 ---------------------------------
 
-Reward tiles (``o``) carry the highest rewards in training data. Collection
-points (``C``) and exit tiles (``E``) have near-zero rewards because those are
-set by the maze designer independently. This held across all seven training mazes.
+Reward tiles (``o``) carry the highest rewards in training data (median ~10).
+Collection points (``C``) and exit tiles (``E``) have low rewards (median ~1),
+while start (``S``) and empty (``x``) tiles have zero reward. Collection and exit
+tile reward values are set by the maze designer independently. This held across
+all seven training mazes.
 
 .. image:: ../../res/analysis/explore/reward-by-tile-type.svg
    :alt: Reward distribution by tile type
@@ -49,7 +51,7 @@ Finding 4: neighborhood reward
 ---------------------------------
 
 The average reward of a tile's immediate neighbors (``neighbor_reward_mean``) is
-the strongest single predictor we found, with Pearson r = 0.547. Tiles in
+the strongest single predictor we found, with Pearson r = 0.509. Tiles in
 high-reward clusters tend to be high-reward themselves.
 
 .. image:: ../../res/analysis/explore/reward-vs-neighbour-reward-mean.svg
