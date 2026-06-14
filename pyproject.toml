@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name             = "maze-kluster"
-version          = "1.0.4"
+version          = "1.0.5"
 description      = "Maze-solving bot library with DFS baseline, ML-driven smart bots, and a terminal UI."
 readme           = "README.md"
 authors          = [{ name = "Arsalan Anwari", email = "arsalan@anwari.nl" }]
@@ -53,8 +53,8 @@ dev = [
 maze-kluster = "maze_kluster.__main__:main"
 
 [project.urls]
-Homepage   = "https://github.com/arsalan-anwari/maze-kluster"
-Repository = "https://github.com/arsalan-anwari/maze-kluster"
+Homepage   = "https://github.com/arsalan-anwari/maze_kluster"
+Repository = "https://github.com/arsalan-anwari/maze_kluster"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/maze_kluster"]

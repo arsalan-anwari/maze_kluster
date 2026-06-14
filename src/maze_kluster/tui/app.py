@@ -279,7 +279,9 @@ class MainMenuScreen(Screen[None]):
             max_moves_str = self.query_one("#max-moves-input", Input).value.strip()
             max_moves: int | None = int(max_moves_str) if max_moves_str.isdigit() else None
             self.app.push_screen(
-                RunScreen(mode="live", maze_name=str(maze_val), bot_name=bot_name, max_moves=max_moves)
+                RunScreen(
+                    mode="live", maze_name=str(maze_val), bot_name=bot_name, max_moves=max_moves
+                )
             )
         else:
             log_path = self.query_one("#log-input", Input).value.strip()
@@ -593,7 +595,7 @@ class RunScreen(Screen[None]):
                         self.app.call_from_thread(self._apply_display, grid, stats)
                         break
 
-                direction: Direction = cast(Any, bot).next_move(  # type: ignore[call-arg]
+                direction: Direction = cast(Any, bot).next_move(
                     graph, known_exits, score_in_hand, force_exit
                 )
                 response = client.move(direction)
