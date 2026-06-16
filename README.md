@@ -41,12 +41,12 @@ client = MazeClient.from_config("connection.json")
 
 # DFS baseline
 bot = BaselineBot(client)
-result = bot.run("easy-01")
+result = bot.run("Hello Maze")
 print(f"Score: {result.score_in_bag}  Moves: {result.total_moves}")
 
 # ML-driven smart bot (pre-trained model bundled in the package)
 smart_bot = SmartBotBase(client, scorer=RFScorer.load())
-result = smart_bot.run("medium-03")
+result = smart_bot.run("Example Maze")
 ```
 
 ### 3. Use the BOTS registry
@@ -57,7 +57,7 @@ from maze_kluster.api import MazeClient
 
 client = MazeClient.from_config()
 bot = BOTS["gbt"](client)   # "baseline" | "rf" | "gbt" | "gp"
-result = bot.run("hard-02")
+result = bot.run("PacMan")
 ```
 
 ### 4. Evaluate results
@@ -83,10 +83,10 @@ print(exploration_completeness(result)) # fraction of tiles visited
 maze-kluster tui
 
 # Live run with a specific bot and maze
-maze-kluster tui --live --maze easy-01 --bot gbt
+maze-kluster tui --live --maze "Hello Maze" --bot gbt
 
 # Replay a saved run log
-maze-kluster tui --replay run_logs/easy-01_baseline.jsonl
+maze-kluster tui --replay data/runs/hello_maze_baseline_20241201_120000.jsonl
 
 # List available mazes / themes
 maze-kluster tui --list-mazes
@@ -126,7 +126,7 @@ class MyScorer:
 
 client = MazeClient.from_config()
 bot = SmartBotBase(client, scorer=MyScorer())
-bot.run("medium-01")
+bot.run("Loops")
 ```
 
 ## Local development
