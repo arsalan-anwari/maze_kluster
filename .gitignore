@@ -42,3 +42,6 @@ Thumbs.db
 
 # Sphinx generated output
 docs/sphinx/out/
+
+# Custom run
+scripts/challenge_run.py
