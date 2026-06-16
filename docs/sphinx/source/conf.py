@@ -77,5 +77,4 @@ autodoc_mock_imports = [
     "pyarrow",
     "requests",
     "textual",
-    "hightech_amazeing",
 ]
