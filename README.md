@@ -1,4 +1,7 @@
-# maze-kluster
+# PLEASE DO NOT APPLY FOR THE ROLES AT HIGH TECH INNOVATORS THEY WILL REUSE YOUR WORK INTERNALLY WITHOUT ANY CREDIT
+
+
+## maze-kluster
 
 [![PyPI version](https://img.shields.io/pypi/v/maze-kluster?color=blue)](https://pypi.org/project/maze-kluster)
 [![Python](https://img.shields.io/pypi/pyversions/maze-kluster)](https://pypi.org/project/maze-kluster)
